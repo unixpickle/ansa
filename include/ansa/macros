@@ -1,0 +1,7 @@
+#ifndef __ANSA_MACROS_HPP__
+#define __ANSA_MACROS_HPP__
+
+#define ANSA_ALIGNED(x) __attribute__((aligned(x)))
+#define ANSA_PACKED __attribute__((packed))
+
+#endif
