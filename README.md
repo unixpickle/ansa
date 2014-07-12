@@ -9,7 +9,7 @@ ANSA (short for **A**lex **N**ichol **S**tand **A**lone) is meant to be used as 
  * A rational arithmetic type
  * A Module class for dynamic dependency initialization
 
-# Portable
+# Portability
 
 ANSA is built for C++11, but does not utilize many of its features.
 
