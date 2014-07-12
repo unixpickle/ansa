@@ -8,59 +8,101 @@ struct NumericInfo {
   static const int size = sizeof(T);
   static const int bitCount = sizeof(T) * 8;
   
+  static T max;
+  static T min;
   static const char * name;
   static bool isSigned;
 };
 
 template<>
-const char * NumericInfo<char>::name = "char";
+const char * NumericInfo<char>::name;
 template<>
-bool NumericInfo<char>::isSigned = true;
+char NumericInfo<char>::min;
+template<>
+char NumericInfo<char>::max;
+template<>
+bool NumericInfo<char>::isSigned;
 
 template<>
-const char * NumericInfo<unsigned char>::name = "unsigned char";
+const char * NumericInfo<unsigned char>::name;
 template<>
-bool NumericInfo<unsigned char>::isSigned = false;
+unsigned char NumericInfo<unsigned char>::min;
+template<>
+unsigned char NumericInfo<unsigned char>::max;
+template<>
+bool NumericInfo<unsigned char>::isSigned;
 
 template<>
-const char * NumericInfo<short>::name = "short";
+const char * NumericInfo<short>::name;
 template<>
-bool NumericInfo<short>::isSigned = true;
+short NumericInfo<short>::min;
+template<>
+short NumericInfo<short>::max;
+template<>
+bool NumericInfo<short>::isSigned;
 
 template<>
-const char * NumericInfo<unsigned short>::name = "unsigned short";
+const char * NumericInfo<unsigned short>::name;
 template<>
-bool NumericInfo<unsigned short>::isSigned = false;
+unsigned short NumericInfo<unsigned short>::min;
+template<>
+unsigned short NumericInfo<unsigned short>::max;
+template<>
+bool NumericInfo<unsigned short>::isSigned;
 
 template<>
-const char * NumericInfo<int>::name = "int";
+const char * NumericInfo<int>::name;
 template<>
-bool NumericInfo<int>::isSigned = true;
+int NumericInfo<int>::min;
+template<>
+int NumericInfo<int>::max;
+template<>
+bool NumericInfo<int>::isSigned;
 
 template<>
-const char * NumericInfo<unsigned int>::name = "unsigned int";
+const char * NumericInfo<unsigned int>::name;
 template<>
-bool NumericInfo<unsigned int>::isSigned = false;
+unsigned int NumericInfo<unsigned int>::min;
+template<>
+unsigned int NumericInfo<unsigned int>::max;
+template<>
+bool NumericInfo<unsigned int>::isSigned;
 
 template<>
-const char * NumericInfo<long>::name = "long";
+const char * NumericInfo<long>::name;
 template<>
-bool NumericInfo<long>::isSigned = true;
+long NumericInfo<long>::min;
+template<>
+long NumericInfo<long>::max;
+template<>
+bool NumericInfo<long>::isSigned;
 
 template<>
-const char * NumericInfo<unsigned long>::name = "unsigned long";
+const char * NumericInfo<unsigned long>::name;
 template<>
-bool NumericInfo<unsigned long>::isSigned = false;
+unsigned long NumericInfo<unsigned long>::min;
+template<>
+unsigned long NumericInfo<unsigned long>::max;
+template<>
+bool NumericInfo<unsigned long>::isSigned;
 
 template<>
-const char * NumericInfo<long long>::name = "long long";
+const char * NumericInfo<long long>::name;
 template<>
-bool NumericInfo<long long>::isSigned = true;
+long long NumericInfo<long long>::min;
+template<>
+long long NumericInfo<long long>::max;
+template<>
+bool NumericInfo<long long>::isSigned;
 
 template<>
-const char * NumericInfo<unsigned long long>::name = "unsigned long long";
+const char * NumericInfo<unsigned long long>::name;
 template<>
-bool NumericInfo<unsigned long long>::isSigned = false;
+unsigned long long NumericInfo<unsigned long long>::min;
+template<>
+unsigned long long NumericInfo<unsigned long long>::max;
+template<>
+bool NumericInfo<unsigned long long>::isSigned;
 
 }
 

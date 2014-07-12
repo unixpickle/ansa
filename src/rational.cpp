@@ -1,5 +1,6 @@
 #include "rational.hpp"
 #include "math.hpp"
+#include <cassert>
 
 namespace ansa {
 
@@ -29,13 +30,12 @@ Rational<T> & Rational<T>::operator=(const Rational<T> & rat) {
 }
 
 template <typename T>
-T Rational<T>::ScaleInteger(T number) {
-  // TODO: this is probably pretty slow and not the most accurate
-  
-  int logNum = Log2Ceil(num);
+T Rational<T>::ScaleInteger(T val) const {
+  assert(denominator != 0);
+  int logNum = Log2Ceil(numerator);
   int logVal = Log2Ceil(val);
   int numRemoved = 0;
-  T theNum = num;
+  T theNum = numerator;
   T theVal = val;
   while (logNum + logVal >= NumBits) {
     numRemoved++;
@@ -47,7 +47,7 @@ T Rational<T>::ScaleInteger(T number) {
       logVal = Log2Ceil(theVal);
     }
   }
-  return ((theNum * theVal) / denom) * ((T)1 << numRemoved);
+  return ((theNum * theVal) / denominator) * ((T)1 << numRemoved);
 }
 
 template class Rational<unsigned char>;

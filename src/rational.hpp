@@ -17,7 +17,15 @@ public:
   
   Rational & operator=(const Rational<T> & rat);
   
-  T ScaleInteger(T number);
+  T ScaleInteger(T number) const;
+  
+  inline T GetNumerator() const {
+    return numerator;
+  }
+  
+  inline T GetDenominator() const {
+    return denominator;
+  }
   
 private:
   T numerator;
