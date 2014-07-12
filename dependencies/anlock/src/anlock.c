@@ -8,7 +8,11 @@ void anlock_initialize(anlock_t lock) {
 }
 
 void anlock_lock(anlock_t lock) {
+<<<<<<< HEAD
   anlock_lock_waiting(lock, (void *)0, (void *)0);
+=======
+  anlock_lock_waiting(lock, (void *)0, (void (*)(void * d))0);
+>>>>>>> anlock
 }
 
 void anlock_lock_waiting(anlock_t lock, void * data, void (*fn)(void * d)) {
