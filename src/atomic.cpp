@@ -97,6 +97,7 @@ Atomic<T>::operator T() const volatile {
   return __atomic_load_n(&value, __ATOMIC_SEQ_CST);
 }
 
+template class Atomic<bool>;
 template class Atomic<unsigned char>;
 template class Atomic<char>;
 template class Atomic<unsigned short>;

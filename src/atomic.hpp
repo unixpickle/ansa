@@ -37,6 +37,7 @@ public:
   operator T() const volatile;
 };
 
+extern template class Atomic<bool>;
 extern template class Atomic<unsigned char>;
 extern template class Atomic<char>;
 extern template class Atomic<unsigned short>;

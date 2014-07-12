@@ -7,6 +7,7 @@ ANSA (short for **A**lex **N**ichol **S**tand **A**lone) is meant to be used as 
  * Functions that are usually provided by &lt;cstring&gt;
  * Integer arithmetic operations such as log2(int).
  * A rational arithmetic type
+ * A Module class for dynamic dependency initialization
 
 # Restrictions
 
