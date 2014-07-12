@@ -3,5 +3,6 @@
 
 #define ANSA_ALIGNED(x) __attribute__((aligned(x)))
 #define ANSA_PACKED __attribute__((packed))
+#define ANSA_NORETURN __attribute__((noreturn))
 
 #endif

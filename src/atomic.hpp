@@ -12,11 +12,13 @@ protected:
   
 public:
   Atomic();
-  Atomic(const Atomic<T> & a);
   Atomic(T v);
+  Atomic(const Atomic<T> & a) = delete;
   
   T operator=(T v);
   T operator=(T v) volatile;
+  
+  Atomic & operator=(const Atomic &) = delete;
   
   T operator+=(T v);
   T operator+=(T v) volatile;

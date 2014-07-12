@@ -6,11 +6,6 @@ template <typename T>
 Atomic<T>::Atomic() : value(0) {
 }
 
-template <typename T>  
-Atomic<T>::Atomic(const Atomic<T> & a) : value((T)a) {
-  value = (T)a;
-}
-
 template <typename T>
 Atomic<T>::Atomic(T v) : value(v) {
 }
