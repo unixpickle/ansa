@@ -55,10 +55,7 @@ void TestScaleUnderflow() {
   Rational<T> rat(5, 7);
   assert(rat.ScaleInteger(7) == 5);
   assert(rat.ScaleInteger(14) == 10);
-  
-  if (NumericInfo<T>::size > 8) {
-    assert(rat.ScaleInteger(21) == 15);
-  }
+  assert(rat.ScaleInteger(21) == 15);
   
   rat = Rational<T>(0, 4);
   assert(rat.ScaleInteger(10) == 0);

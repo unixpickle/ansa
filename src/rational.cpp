@@ -32,22 +32,27 @@ Rational<T> & Rational<T>::operator=(const Rational<T> & rat) {
 template <typename T>
 T Rational<T>::ScaleInteger(T val) const {
   assert(denominator != 0);
-  int logNum = Log2Ceil(numerator);
-  int logVal = Log2Ceil(val);
   int numRemoved = 0;
   T theNum = numerator;
   T theVal = val;
-  while (logNum + logVal >= NumBits) {
-    numRemoved++;
-    if (theNum > theVal) {
-      theNum >>= 1;
-      logNum = Log2Ceil(theNum);
-    } else {
-      theVal >>= 1;
-      logVal = Log2Ceil(theVal);
-    }
+  T product = theNum * theVal;
+  while (theNum > 1 && theVal > 1) {
+    T bigger = theNum > theVal ? theNum : theVal;
+    if (Log2Floor(product) < Log2Floor(bigger) + 1) {
+      if (!(theNum & 1)) {
+        theNum >>= 1;
+      } else if (!(theVal & 1)) {
+        theVal >>= 1;
+      } else if (theNum > theVal) {
+        theNum >>= 1;
+      } else {
+        theVal >>= 1;
+      }
+      ++numRemoved;
+      product = theNum * theVal;
+    } else break;
   }
-  return ((theNum * theVal) / denominator) * ((T)1 << numRemoved);
+  return (product / denominator) * ((T)1 << numRemoved);
 }
 
 template class Rational<unsigned char>;
