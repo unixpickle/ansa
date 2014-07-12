@@ -1,6 +1,6 @@
 CPPFLAGS ?= -Wall -Wextra -std=c++11
 
-all: build/atomic build/module build/lock build/math build/rational
+all: build/atomic build/module build/lock build/math build/rational build/cstring
 
 build/atomic: build
 	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp test-atomic.cpp -o build/atomic
@@ -18,6 +18,9 @@ build/math: build
 
 build/rational: build
 	g++ $(CPPFLAGS) -I ../include ../src/numeric-info.cpp ../src/rational.cpp test-rational.cpp -o build/rational
+
+build/cstring: build
+	g++ $(CPPFLAGS) -I ../include ../src/cstring.cpp test-cstring.cpp -o build/cstring
 
 build:
 	mkdir build

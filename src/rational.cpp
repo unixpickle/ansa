@@ -32,6 +32,7 @@ Rational<T> & Rational<T>::operator=(const Rational<T> & rat) {
 template <typename T>
 T Rational<T>::ScaleInteger(T val) const {
   assert(denominator != 0);
+  // TODO: possibly add support for x64 assembly to speed things up
   int numRemoved = 0;
   T theNum = numerator;
   T theVal = val;
@@ -39,9 +40,9 @@ T Rational<T>::ScaleInteger(T val) const {
   while (theNum > 1 && theVal > 1) {
     T bigger = theNum > theVal ? theNum : theVal;
     if (Log2Floor(product) < Log2Floor(bigger) + 1) {
-      if (!(theNum & 1)) {
+      if (!(theNum % denominator)) {
         theNum >>= 1;
-      } else if (!(theVal & 1)) {
+      } else if (!(theVal % denominator)) {
         theVal >>= 1;
       } else if (theNum > theVal) {
         theNum >>= 1;
