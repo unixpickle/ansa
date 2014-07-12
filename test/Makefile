@@ -9,7 +9,9 @@ build/module: build
 	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp ../src/module.cpp test-module.cpp -o build/module
 
 build/lock: build
-	g++ $(CPPFLAGS) -I ../include ../src/lock.cpp ../dependencies/anlock/src/anlock.c test-lock.cpp -o build/lock
+	gcc -Wall -Wextra -c ../dependencies/anlock/src/anlock.c -o build/anlock.o
+	g++ $(CPPFLAGS) -I ../include ../src/lock.cpp build/anlock.o test-lock.cpp -o build/lock
+	rm build/anlock.o
 
 build:
 	mkdir build
