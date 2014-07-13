@@ -27,6 +27,10 @@ public:
     return denominator;
   }
   
+  inline Rational Flip() const {
+    return Rational(denominator, numerator);
+  }
+  
 private:
   T numerator;
   T denominator;

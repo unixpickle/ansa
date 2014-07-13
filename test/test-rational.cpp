@@ -29,7 +29,7 @@ int main() {
 }
 
 void TestConstructorsAndCopy() {
-  ScopedPass pass("Rational::[Rational/operator=]()");
+  ScopedPass pass("Rational::[Rational/operator=/Flip]()");
   
   Rational<unsigned int> rat;
   assert(rat.GetNumerator() == 0);
@@ -46,6 +46,12 @@ void TestConstructorsAndCopy() {
   rat = rat2;
   assert(rat.GetNumerator() == 7);
   assert(rat.GetDenominator() == 2);
+  
+  rat2 = rat.Flip();
+  assert(rat.GetNumerator() == rat2.GetDenominator());
+  assert(rat.GetDenominator() == rat2.GetNumerator());
+  assert(rat2.GetNumerator() == 2);
+  assert(rat2.GetDenominator() == 7);
 }
 
 template <typename T>
