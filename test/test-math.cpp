@@ -11,17 +11,25 @@ void TestLogFloor();
 template <typename T>
 void TestLogCeil();
 
+template <typename T>
+void TestAlign();
+
 int main() {
   TestLogFloor<unsigned char>();
   TestLogCeil<unsigned char>();
+  TestAlign<unsigned char>();
   TestLogFloor<unsigned short>();
   TestLogCeil<unsigned short>();
+  TestAlign<unsigned short>();
   TestLogFloor<unsigned int>();
   TestLogCeil<unsigned int>();
+  TestAlign<unsigned int>();
   TestLogFloor<unsigned long>();
   TestLogCeil<unsigned long>();
+  TestAlign<unsigned long>();
   TestLogFloor<unsigned long long>();
   TestLogCeil<unsigned long long>();
+  TestAlign<unsigned long long>();
   return 0;
 }
 
@@ -53,4 +61,16 @@ void TestLogCeil() {
       assert(Log2Ceil(((T)1 << i) + 1) == i + 1);
     }
   }
+}
+
+template <typename T>
+void TestAlign() {
+  ScopedPass pass("Testing Align<", NumericInfo<T>::name, ">");
+  
+  assert(Align(3, 10) == 10);
+  assert(Align(15, 0x10) == 0x10);
+  assert(Align(0x1f, 0x10) == 0x20);
+  assert(Align(0x8, 0x4) == 0x8);
+  assert(Align(0x8, 0x8) == 0x8);
+  assert(Align(0, 0x8) == 0);
 }

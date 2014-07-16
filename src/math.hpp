@@ -28,6 +28,14 @@ int Log2Ceil(T value) {
   }
 }
 
+template <typename T>
+T Align(T value, T alignment) {
+  if (value % alignment) {
+    return value + (alignment - (value % alignment));
+  }
+  return value;
+}
+
 }
 
 #endif
