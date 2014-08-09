@@ -8,6 +8,8 @@ ANSA (short for **A**lex **N**ichol **S**tand **A**lone) is meant to be used as 
  * Integer arithmetic operations such as log<sub>2</sub>(x).
  * A rational arithmetic type
  * A Module class for dynamic dependency initialization
+ * A simple base class that cannot be copied or re-assigned
+ * A simple linked-list container
 
 # Portability
 
