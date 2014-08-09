@@ -38,7 +38,7 @@ public:
       // postfix increment
       assert(cur != NULL);
       Iterator copied(cur);
-      (*this)++;
+      ++(*this);
       return copied;
     }
     
@@ -56,6 +56,7 @@ public:
     }
     
   protected:
+    friend class LinkedList;
     Iterator(Link * c) : cur(c) {}
     Link * cur;
   };
@@ -77,12 +78,12 @@ public:
   }
   
   T * GetFirst() const {
-    if (first) return first->obj;
+    if (first) return &first->obj;
     return NULL;
   }
   
   T * GetLast() const {
-    if (last) return last->obj;
+    if (last) return &last->obj;
     return NULL;
   }
   
