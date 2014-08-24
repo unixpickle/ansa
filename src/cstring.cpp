@@ -41,4 +41,20 @@ int Memcmp(const void * ptr1, const void * ptr2, size_t len) {
   return 0;
 }
 
+void * Memmove(void * _dst, const void * _src, size_t len) {
+  char * dst = (char *)_dst;
+  const char * src = (const char *)_src;
+  if (dst == src) return _dst;
+  if (dst < src) {
+    for (size_t i = 0; i < len; ++i) {
+      dst[i] = src[i];
+    }
+  } else {
+    for (size_t i = len; i > 0; --i) {
+      dst[i - 1] = src[i - 1];
+    }
+  }
+  return dst;
+}
+
 }

@@ -10,6 +10,7 @@ void * Memset(void * ptr, char value, size_t size);
 void Bzero(void * ptr, size_t size);
 void Memcpy(void * dest, const void * src, size_t size);
 int Memcmp(const void * ptr1, const void * ptr2, size_t len);
+void * Memmove(void * dst, const void * src, size_t len);
 
 }
 

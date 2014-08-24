@@ -9,6 +9,7 @@ void TestMemset();
 void TestBzero();
 void TestMemcpy();
 void TestMemcmp();
+void TestMemmove();
 
 int main() {
   TestStrlen();
@@ -16,6 +17,7 @@ int main() {
   TestBzero();
   TestMemcpy();
   TestMemcmp();
+  TestMemmove();
   return 0;
 }
 
@@ -80,4 +82,24 @@ void TestMemcmp() {
   assert(Memcmp((void *)buff1, (void *)buff2, 5) == 1);
   buff2[3] = (char)201;
   assert(Memcmp((void *)buff1, (void *)buff2, 5) == -1);
+}
+
+void TestMemmove() {
+  ScopedPass pass("Memmove()");
+  
+  char buffer[6] = {1, 2, 3, 4, 5, 6};
+  Memmove((void *)(buffer + 3), (void *)buffer, 3);
+  assert(Memcmp((void *)buffer, (void *)"\x01\x02\x03\x01\x02\x03", 6) == 0);
+  
+  buffer[3] = 4;
+  buffer[4] = 5;
+  buffer[5] = 6;
+  Memmove((void *)buffer, (void *)(buffer + 3), 3);
+  assert(Memcmp((void *)buffer, (void *)"\x04\x05\x06\x04\x05\x06", 6) == 0);
+  
+  buffer[0] = 1;
+  buffer[1] = 2;
+  buffer[2] = 3;
+  Memmove((void *)buffer, (void *)buffer, 6);
+  assert(Memcmp((void *)buffer, (void *)"\x01\x02\x03\x04\x05\x06", 6) == 0);
 }
