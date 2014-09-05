@@ -1,14 +1,14 @@
 #ifndef __ANSA_ATOMIC_HPP__
 #define __ANSA_ATOMIC_HPP__
 
-#include <ansa/macros>
-
 namespace ansa {
 
 template <typename T>
 class Atomic {
 protected:
-  T value ANSA_ALIGNED(8);
+  // By default, structure packing in the ABI should automatically align the
+  // variable correctly.
+  T value;
   
 public:
   Atomic();
