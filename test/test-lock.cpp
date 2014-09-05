@@ -59,11 +59,10 @@ void TestThreaded() {
 
 void IncrementValue(int idx) {
   usleep(idx * 100000);
-  sharedLock.Seize();
+  ScopedLock scope(sharedLock);
+  ++globalValue;
   // make sure we're still sleeping with the lock held when the next thread
   // attempts to lock it
   usleep(200000);
-  ++globalValue;
   assert(globalValue == idx + 1);
-  sharedLock.Release();
 }

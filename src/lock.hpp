@@ -62,6 +62,23 @@ protected:
   virtual void Yield();
 };
 
+/**
+ * An easy way to seize a lock for the entirety of a function scope.
+ */
+class ScopedLock {
+public:
+  inline ScopedLock(Lock & l) : lock(l) {
+    lock.Seize();
+  }
+  
+  inline ~ScopedLock() {
+    lock.Release();
+  }
+  
+private:
+  Lock & lock;
+};
+
 }
 
 #endif

@@ -14,6 +14,10 @@ The ***OrderedLock*** class is a serialized spinlock. For example, if person A a
 
 Because ANSA assumes very little about the operating system and does not use scheduling APIs, it cannot automatically yield to other another thread if a lock is held. Instead, you must subclass the ***YieldingLock*** class and implement the `Yield()` method. When you `Seize()` a *YieldingLock*, it calls its `Yield()` method in a loop until it owns the lock.
 
+## *ScopedLock*
+
+A lot of the time, you will implement a method that will hold a lock for the entirety of its execution. In this case, it can be very convenient to use a "scoped lock". On construction, the ***ScopedLock*** class seizes a specified lock. On destruction, an instance of *ScopedLock* will free the lock it was initialized with.
+
 # Locking Algorithm
 
 When I invented this locking algorithm, I originally implemented it in [anlock](https://github.com/unixpickle/anlock).
