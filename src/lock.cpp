@@ -37,7 +37,7 @@ void OrderedLock::Release() {
   lockValue += LowerMask;
 }
 
-void YieldingLock::SeizeYielding() {
+void YieldingLock::Seize() {
   LockInt oldValue = lockValue++;
   LockHalfInt lower = (LockHalfInt)(oldValue & LowerMask);
   if (!lower) return; // we have seized the lock

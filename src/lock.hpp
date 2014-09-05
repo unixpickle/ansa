@@ -51,10 +51,9 @@ protected:
 class YieldingLock : public OrderedLock {
 public:
   /**
-   * Like Seize(), but will periodically call Yield() on this lock.
+   * Like the Seize() method of the superclass, but calls Yield() periodically.
    */
-  virtual void SeizeYielding();
-  
+  virtual void Seize();
 protected:
   /**
    * Currently does nothing. You must override this in your lock class if you

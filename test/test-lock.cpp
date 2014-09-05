@@ -34,14 +34,15 @@ int main() {
 void TestYielding() {
   ScopedPass pass("YieldingLock");
   MyFancyLock theLock;
+  theLock.OrderedLock::Seize();
   theLock.Seize();
-  theLock.SeizeYielding();
   assert(theLock.yieldCount == 1);
   theLock.Release();
-  theLock.Seize();
+  theLock.OrderedLock::Seize();
   theLock.Release();
-  theLock.Seize();
+  theLock.OrderedLock::Seize();
   theLock.Release();
+  assert(theLock.yieldCount == 1);
 }
 
 void TestThreaded() {
