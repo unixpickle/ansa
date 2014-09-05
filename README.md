@@ -1,6 +1,6 @@
 # ANSA
 
-ANSA (short for **A**lex **N**ichol **S**tand **A**lone) is meant to be used as an alternative to the lofty Standard Template Library. It currently includes the following APIs:
+ANSA (short for <b>A</b>lex <b>N</b>ichol <b>S</b>tand <b>A</b>lone) is meant to be used as an alternative to the lofty Standard Template Library. It currently includes the following APIs:
 
  * Atomic type wrapper
  * A busy-wait lock mechanism based on an atomic ordered-lock algorithm
