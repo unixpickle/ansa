@@ -1,4 +1,5 @@
 #include "atomic.hpp"
+#include <cassert>
 
 namespace ansa {
 

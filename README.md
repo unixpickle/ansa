@@ -2,8 +2,8 @@
 
 ANSA (short for **A**lex **N**ichol **S**tand **A**lone) is meant to be used as an alternative to the lofty Standard Template Library. It currently includes the following APIs:
 
- * A busy-wait lock mechanism based on [anlock](http://github.com/unixpickle/anlock)
  * Atomic type wrapper
+ * A busy-wait lock mechanism based on an atomic ordered-lock algorithm
  * Functions that are usually provided by &lt;cstring&gt;
  * Integer arithmetic operations such as log<sub>2</sub>(x).
  * A rational arithmetic type
