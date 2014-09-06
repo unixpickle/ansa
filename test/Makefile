@@ -1,6 +1,6 @@
 CPPFLAGS ?= -Wall -Wextra -std=c++11
 
-all: build/atomic build/module build/lock32 build/lock64 build/math build/rational build/cstring build/bit-list build/linked-list
+all: build/atomic build/module build/lock32 build/lock64 build/math build/rational build/cstring build/bit-list build/linked-list build/profile-rational-o0 build/profile-rational-o3
 
 build/atomic: build
 	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp test-atomic.cpp -o build/atomic
@@ -28,6 +28,12 @@ build/bit-list: build
 
 build/linked-list: build
 	g++ $(CPPFLAGS) -I ../include test-linked-list.cpp -o build/linked-list
+
+build/profile-rational-o0: build
+	g++ $(CPPFLAGS) -I ../include ../src/rational.cpp profile-rational.cpp -o build/profile-rational-o0
+
+build/profile-rational-o3: build
+	g++ $(CPPFLAGS) -O3 -I ../include ../src/rational.cpp profile-rational.cpp -o build/profile-rational-o3
 
 build:
 	mkdir build
