@@ -15,9 +15,9 @@ You may create a Rational that wraps any unsigned integral type, but it is only 
 You may use `Rational<long long>` as follows to perform the conversion described as an example above:
 
     long long tickCount = // ... some way of reading hardware clock
-    Rational<long long> rat(1000000, 1130000000);
+    Rational<unsigned long long> rat(1000000, 1130000000);
     long long microCount = rat.ScaleInteger(tickCount);
 
-## TODO: Optimization
+## Architecture Optimization
 
-In the future, I will use inline assembly to greatly improve the performance of `Rational<T>` on certain architectures. For now, it'll just be a little slow.
+On the x86-64 platform, `Rational<unsigned long long>::ScaleInteger()` is optimized to use the `mul` & `div` instructions which support partial 128-bit operations.
