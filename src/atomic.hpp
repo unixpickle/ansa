@@ -3,7 +3,7 @@
 
 namespace ansa {
 
-template <typename T>
+template <typename T, int MemModel = __ATOMIC_SEQ_CST>
 class Atomic {
 protected:
   // By default, structure packing in the ABI should automatically align the
@@ -11,45 +11,78 @@ protected:
   T value;
   
 public:
-  Atomic();
-  Atomic(T v);
+  Atomic() : value(0) {}
+  Atomic(T v) : value(v) {}
+  
   Atomic(const Atomic<T> & a) = delete;
-  
-  T operator=(T v);
-  T operator=(T v) volatile;
-  
   Atomic & operator=(const Atomic &) = delete;
   
-  T operator+=(T v);
-  T operator+=(T v) volatile;
-  T operator-=(T v);
-  T operator-=(T v) volatile;
+  inline T operator=(T v) {
+    __atomic_store_n(&value, v, MemModel);
+    return v;
+  }
   
-  T operator--();
-  T operator--() volatile;
-  T operator++();
-  T operator++() volatile;
+  inline T operator=(T v) volatile {
+    __atomic_store_n(&value, v, MemModel);
+    return v;
+  }
   
-  T operator--(int);
-  T operator--(int) volatile;
-  T operator++(int);
-  T operator++(int) volatile;
+  inline T operator+=(T v) {
+    return __sync_add_and_fetch(&value, v);
+  }
   
-  operator T() const;
-  operator T() const volatile;
+  inline T operator+=(T v) volatile {
+    return __sync_add_and_fetch(&value, v);
+  }
+  
+  inline T operator-=(T v) {
+    return __sync_sub_and_fetch(&value, v);
+  }
+  
+  inline T operator-=(T v) volatile {
+    return __sync_sub_and_fetch(&value, v);
+  }
+  
+  inline T operator--() {
+    return __sync_sub_and_fetch(&value, 1);
+  }
+  
+  inline T operator--() volatile {
+    return __sync_sub_and_fetch(&value, 1);
+  }
+  
+  inline T operator++() {
+    return __sync_add_and_fetch(&value, 1);
+  }
+  
+  inline T operator++() volatile {
+    return __sync_add_and_fetch(&value, 1);
+  }
+  
+  inline T operator--(int) {
+    return __sync_fetch_and_sub(&value, 1);
+  }
+  
+  inline T operator--(int) volatile {
+    return __sync_fetch_and_sub(&value, 1);
+  }
+  
+  inline T operator++(int) {
+    return __sync_fetch_and_add(&value, 1);
+  }
+  
+  inline T operator++(int) volatile {
+    return __sync_fetch_and_add(&value, 1);
+  }
+  
+  inline operator T() const {
+    return __atomic_load_n(&value, MemModel);
+  }
+  
+  inline operator T() const volatile {
+    return __atomic_load_n(&value, MemModel);
+  }
 };
-
-extern template class Atomic<bool>;
-extern template class Atomic<unsigned char>;
-extern template class Atomic<char>;
-extern template class Atomic<unsigned short>;
-extern template class Atomic<short>;
-extern template class Atomic<unsigned int>;
-extern template class Atomic<int>;
-extern template class Atomic<unsigned long>;
-extern template class Atomic<long>;
-extern template class Atomic<unsigned long long>;
-extern template class Atomic<long long>;
 
 }
 

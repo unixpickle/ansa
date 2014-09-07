@@ -1,18 +1,21 @@
 CPPFLAGS ?= -Wall -Wextra -std=c++11
 
-all: build/atomic build/module build/lock32 build/lock64 build/math build/rational build/cstring build/bit-list build/linked-list build/profile-rational-o0 build/profile-rational-o3
+all: build/atomic build/atomic-ptr build/module build/lock32 build/lock64 build/math build/rational build/cstring build/bit-list build/linked-list build/profile-rational-o0 build/profile-rational-o3
 
 build/atomic: build
-	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp test-atomic.cpp -o build/atomic
+	g++ $(CPPFLAGS) -I ../include test-atomic.cpp -o build/atomic
+
+build/atomic-ptr: build
+	g++ $(CPPFLAGS) -I ../include test-atomic-ptr.cpp -o build/atomic-ptr
 
 build/module: build
-	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp ../src/module.cpp test-module.cpp -o build/module
+	g++ $(CPPFLAGS) -I ../include ../src/module.cpp test-module.cpp -o build/module
 
 build/lock32: build
-	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp ../src/lock.cpp test-lock.cpp -D__ANSA_LOCK_SIZE__=32 -o build/lock32
+	g++ $(CPPFLAGS) -I ../include ../src/lock.cpp test-lock.cpp -D__ANSA_LOCK_SIZE__=32 -o build/lock32
 
 build/lock64: build
-	g++ $(CPPFLAGS) -I ../include ../src/atomic.cpp ../src/lock.cpp test-lock.cpp -D__ANSA_LOCK_SIZE__=64 -o build/lock64
+	g++ $(CPPFLAGS) -I ../include ../src/lock.cpp test-lock.cpp -D__ANSA_LOCK_SIZE__=64 -o build/lock64
 
 build/math: build
 	g++ $(CPPFLAGS) -I ../include ../src/numeric-info.cpp test-math.cpp -o build/math
