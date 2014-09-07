@@ -12,11 +12,11 @@ int main() {
 }
 
 void TestOperations() {
-  ScopedPass pass("AtomicPtr<uint8_t> operations");
+  ScopedPass pass("AtomicPtr<uint32_t> operations");
   
-  uint8_t myBuffer[10];
+  uint32_t myBuffer[10];
   
-  AtomicPtr<uint8_t> myPtr(myBuffer);
+  AtomicPtr<uint32_t> myPtr(myBuffer);
   for (int i = 0; i < 10; i++) {
     assert((myPtr++) == myBuffer + i);
   }
