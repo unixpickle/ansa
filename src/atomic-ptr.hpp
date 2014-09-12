@@ -79,8 +79,16 @@ public:
     return (T *)__atomic_load_n(&value, MemModel);
   }
   
-  inline operator T() const volatile {
+  inline operator T *() const volatile {
     return (T *)__atomic_load_n(&value, MemModel);
+  }
+  
+  inline T * operator ->() const {
+    return (T *)*this;
+  }
+  
+  inline T * operator ->() const volatile {
+    return (T *)*this;
   }
 };
 
