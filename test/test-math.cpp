@@ -14,22 +14,36 @@ void TestLogCeil();
 template <typename T>
 void TestAlign();
 
+template <typename T>
+void TestMaxMin();
+
 int main() {
   TestLogFloor<unsigned char>();
   TestLogCeil<unsigned char>();
   TestAlign<unsigned char>();
+  TestMaxMin<unsigned char>();
   TestLogFloor<unsigned short>();
   TestLogCeil<unsigned short>();
   TestAlign<unsigned short>();
+  TestMaxMin<unsigned short>();
   TestLogFloor<unsigned int>();
   TestLogCeil<unsigned int>();
   TestAlign<unsigned int>();
+  TestMaxMin<unsigned int>();
   TestLogFloor<unsigned long>();
   TestLogCeil<unsigned long>();
   TestAlign<unsigned long>();
+  TestMaxMin<unsigned long>();
   TestLogFloor<unsigned long long>();
   TestLogCeil<unsigned long long>();
   TestAlign<unsigned long long>();
+  TestMaxMin<unsigned long long>();
+  
+  TestMaxMin<char>();
+  TestMaxMin<short>();
+  TestMaxMin<int>();
+  TestMaxMin<long>();
+  TestMaxMin<long long>();
   return 0;
 }
 
@@ -73,4 +87,27 @@ void TestAlign() {
   assert(Align(0x8, 0x4) == 0x8);
   assert(Align(0x8, 0x8) == 0x8);
   assert(Align(0, 0x8) == 0);
+}
+
+template <typename T>
+void TestMaxMin() {
+  ScopedPass pass("Testing [Max/Min]<", NumericInfo<T>::name, ">");
+  if (NumericInfo<T>::isSigned) {
+    assert(Max((T)-1, (T)1) == (T)1);
+    assert(Max((T)1, (T)-1) == (T)1);
+    assert(Max((T)-1, (T)-2) == (T)-1);
+    assert(Max((T)-2, (T)-1) == (T)-1);
+    assert(Max((T)-1, (T)-1) == (T)-1);
+    assert(Min((T)-1, (T)1) == (T)-1);
+    assert(Min((T)1, (T)-1) == (T)-1);
+    assert(Min((T)-1, (T)-2) == (T)-2);
+    assert(Min((T)-2, (T)-1) == (T)-2);
+    assert(Min((T)-1, (T)-1) == (T)-1);
+  }
+  assert(Max((T)1, (T)2) == (T)2);
+  assert(Max((T)2, (T)1) == (T)2);
+  assert(Max((T)2, (T)2) == (T)2);
+  assert(Min((T)1, (T)2) == (T)1);
+  assert(Min((T)2, (T)1) == (T)1);
+  assert(Min((T)2, (T)2) == (T)2);
 }

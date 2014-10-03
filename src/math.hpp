@@ -36,6 +36,16 @@ T Align(T value, T alignment) {
   return value;
 }
 
+template <typename T>
+inline T Max(T one, T two) {
+  return one > two ? one : two;
+}
+
+template <typename T>
+inline T Min(T one, T two) {
+  return one < two ? one : two;
+}
+
 }
 
 #endif
