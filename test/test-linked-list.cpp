@@ -31,7 +31,7 @@ void TestPushPop() {
   
   list.Add(&one.link);
   assert(list.Pop() == &one);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.Add(&one.link);
   list.Add(&two.link);
@@ -39,7 +39,7 @@ void TestPushPop() {
   assert(list.Pop() == &two);
   assert(list.Pop() == &one);
   assert(list.Pop() == &three);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.AddFront(&one.link);
   list.Add(&two.link);
@@ -47,7 +47,7 @@ void TestPushPop() {
   assert(list.Pop() == &two);
   assert(list.Pop() == &one);
   assert(list.Pop() == &three);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.Add(&one.link);
   list.Add(&two.link);
@@ -55,7 +55,7 @@ void TestPushPop() {
   assert(list.Shift() == &three);
   assert(list.Shift() == &one);
   assert(list.Shift() == &two);
-  assert(list.Shift() == NULL);
+  assert(list.Shift() == nullptr);
 }
 
 void TestRemove() {
@@ -69,7 +69,7 @@ void TestRemove() {
   
   list.Add(&one.link);
   list.Remove(&one.link);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.Add(&one.link);
   list.Add(&two.link);
@@ -77,19 +77,19 @@ void TestRemove() {
   list.Remove(&two.link);
   assert(list.Pop() == &three);
   assert(list.Pop() == &one);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.Add(&one.link);
   list.Add(&two.link);
   list.Remove(&one.link);
   assert(list.Pop() == &two);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
   
   list.Add(&one.link);
   list.Add(&two.link);
   list.Remove(&two.link);
   assert(list.Pop() == &one);
-  assert(list.Pop() == NULL);
+  assert(list.Pop() == nullptr);
 }
 
 void TestAccess() {
@@ -122,6 +122,6 @@ void TestAccess() {
   assert(list.GetFirst() == &three);
   assert(list.GetLast() == &three);
   list.Remove(&three.link);
-  assert(list.GetFirst() == NULL);
-  assert(list.GetLast() == NULL);
+  assert(list.GetFirst() == nullptr);
+  assert(list.GetLast() == nullptr);
 }

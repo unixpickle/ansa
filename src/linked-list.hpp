@@ -17,8 +17,8 @@ public:
     Link(T & o) : obj(o) {}
     
     T & obj;
-    Link * next = NULL;
-    Link * last = NULL;
+    Link * next = nullptr;
+    Link * last = nullptr;
   };
   
   /**
@@ -29,14 +29,14 @@ public:
   public:
     Iterator & operator++() {
       // prefix increment
-      assert(cur != NULL);
+      assert(cur != nullptr);
       cur = cur->next;
       return *this;
     }
     
     Iterator operator++(int) {
       // postfix increment
-      assert(cur != NULL);
+      assert(cur != nullptr);
       Iterator copied(cur);
       ++(*this);
       return copied;
@@ -51,7 +51,7 @@ public:
     }
     
     T & operator*() {
-      assert(cur != NULL);
+      assert(cur != nullptr);
       return cur->obj;
     }
     
@@ -74,21 +74,21 @@ public:
    * element. This iterator should not be dereferenced or incremented.
    */
   Iterator GetEnd() const {
-    return Iterator(NULL);
+    return Iterator(nullptr);
   }
   
   T * GetFirst() const {
     if (first) return &first->obj;
-    return NULL;
+    return nullptr;
   }
   
   T * GetLast() const {
     if (last) return &last->obj;
-    return NULL;
+    return nullptr;
   }
   
   void Add(Link * link) {
-    assert(link->next == NULL && link->last == NULL);
+    assert(link->next == nullptr && link->last == nullptr);
     if (last) {
       last->next = link;
       link->last = last;
@@ -99,7 +99,7 @@ public:
   }
   
   void AddFront(Link * link) {
-    assert(link->next == NULL && link->last == NULL);
+    assert(link->next == nullptr && link->last == nullptr);
     if (first) {
       first->last = link;
       link->next = first;
@@ -111,18 +111,18 @@ public:
   
   void Remove(Link * link) {
     if (link == first && link == last) {
-      last = first = NULL;
+      last = first = nullptr;
     } else if (link == first) {
-      link->next->last = NULL;
+      link->next->last = nullptr;
       first = link->next;
     } else if (link == last) {
-      link->last->next = NULL;
+      link->last->next = nullptr;
       last = link->last;
     } else {
       link->last->next = link->next;
       link->next->last = link->last;
     }
-    link->next = link->last = NULL;
+    link->next = link->last = nullptr;
   }
   
   T * Pop() {
@@ -131,7 +131,7 @@ public:
       Remove(last);
       return res;
     }
-    return NULL;
+    return nullptr;
   }
   
   T * Shift() {
@@ -140,12 +140,12 @@ public:
       Remove(first);
       return res;
     }
-    return NULL;
+    return nullptr;
   }
   
 private:
-  Link * first = NULL;
-  Link * last = NULL;
+  Link * first = nullptr;
+  Link * last = nullptr;
 };
 
 }
