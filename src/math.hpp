@@ -8,9 +8,8 @@ namespace ansa {
 
 template <typename T>
 int Log2Floor(T value) {
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   assert(value != 0);
-  static_assert(!NumericInfo<T>::isSigned,
-                "Only unsigned types are supported.");
   if (sizeof(T) > sizeof(unsigned long)) {
     return NumericInfo<unsigned long long>::bitCount - __builtin_clzll(value)
         - 1;
@@ -23,8 +22,8 @@ int Log2Floor(T value) {
 
 template <typename T>
 int Log2Ceil(T value) {
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   assert(value != 0);
-  assert(!NumericInfo<T>::isSigned);
   int floored = Log2Floor(value);
   if (((T)1 << floored) != value) {
     return floored + 1;
@@ -35,13 +34,13 @@ int Log2Ceil(T value) {
 
 template <typename T>
 inline bool IsAligned(T value, T alignment) {
-  assert(!NumericInfo<T>::isSigned);
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   return alignment < 2 ? true : (value % alignment) == 0;
 }
 
 template <typename T>
 T Align(T value, T alignment) {
-  assert(!NumericInfo<T>::isSigned);
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   if (IsAligned(value, alignment)) {
     return value;
   } else {
@@ -61,7 +60,7 @@ inline T Min(T one, T two) {
 
 template <typename T>
 int BitScanRight(T value) {
-  assert(!NumericInfo<T>::isSigned);
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   if (value == 0) return NumericInfo<T>::bitCount;
   if (sizeof(T) > sizeof(unsigned long)) {
     return __builtin_ctzll(value);
@@ -74,14 +73,14 @@ int BitScanRight(T value) {
 
 template <typename T>
 T Alignment(T value) {
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   assert(value != 0);
-  assert(!NumericInfo<T>::isSigned);
   return (T)1 << BitScanRight(value);
 }
 
 template <typename T>
 bool IsPowerOf2(T value) {
-  assert(!NumericInfo<T>::isSigned);
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
   if (value == 0) return true;
   return ((T)1 << BitScanRight(value)) == value;
 }
