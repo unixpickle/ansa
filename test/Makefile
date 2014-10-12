@@ -18,10 +18,10 @@ build/lock64: build
 	g++ $(CPPFLAGS) -I ../include ../src/lock.cpp test-lock.cpp -D__ANSA_LOCK_SIZE__=64 -o build/lock64
 
 build/math: build
-	g++ $(CPPFLAGS) -I ../include ../src/numeric-info.cpp test-math.cpp -o build/math
+	g++ $(CPPFLAGS) -I ../include test-math.cpp -o build/math
 
 build/rational: build
-	g++ $(CPPFLAGS) -I ../include ../src/numeric-info.cpp ../src/rational.cpp test-rational.cpp -o build/rational
+	g++ $(CPPFLAGS) -I ../include ../src/rational.cpp test-rational.cpp -o build/rational
 
 build/cstring: build
 	g++ $(CPPFLAGS) -I ../include ../src/cstring.cpp test-cstring.cpp -o build/cstring

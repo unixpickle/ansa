@@ -5,104 +5,112 @@ namespace ansa {
 
 template <typename T>
 struct NumericInfo {
-  static const int size = sizeof(T);
-  static const int bitCount = sizeof(T) * 8;
-  
-  static T max;
-  static T min;
-  static const char * name;
-  static bool isSigned;
 };
 
-template<>
-const char * NumericInfo<char>::name;
-template<>
-char NumericInfo<char>::min;
-template<>
-char NumericInfo<char>::max;
-template<>
-bool NumericInfo<char>::isSigned;
-
-template<>
-const char * NumericInfo<unsigned char>::name;
-template<>
-unsigned char NumericInfo<unsigned char>::min;
-template<>
-unsigned char NumericInfo<unsigned char>::max;
-template<>
-bool NumericInfo<unsigned char>::isSigned;
-
-template<>
-const char * NumericInfo<short>::name;
-template<>
-short NumericInfo<short>::min;
-template<>
-short NumericInfo<short>::max;
-template<>
-bool NumericInfo<short>::isSigned;
-
-template<>
-const char * NumericInfo<unsigned short>::name;
-template<>
-unsigned short NumericInfo<unsigned short>::min;
-template<>
-unsigned short NumericInfo<unsigned short>::max;
-template<>
-bool NumericInfo<unsigned short>::isSigned;
-
-template<>
-const char * NumericInfo<int>::name;
-template<>
-int NumericInfo<int>::min;
-template<>
-int NumericInfo<int>::max;
-template<>
-bool NumericInfo<int>::isSigned;
-
-template<>
-const char * NumericInfo<unsigned int>::name;
-template<>
-unsigned int NumericInfo<unsigned int>::min;
-template<>
-unsigned int NumericInfo<unsigned int>::max;
-template<>
-bool NumericInfo<unsigned int>::isSigned;
-
-template<>
-const char * NumericInfo<long>::name;
-template<>
-long NumericInfo<long>::min;
-template<>
-long NumericInfo<long>::max;
-template<>
-bool NumericInfo<long>::isSigned;
-
-template<>
-const char * NumericInfo<unsigned long>::name;
-template<>
-unsigned long NumericInfo<unsigned long>::min;
-template<>
-unsigned long NumericInfo<unsigned long>::max;
-template<>
-bool NumericInfo<unsigned long>::isSigned;
-
-template<>
-const char * NumericInfo<long long>::name;
-template<>
-long long NumericInfo<long long>::min;
-template<>
-long long NumericInfo<long long>::max;
-template<>
-bool NumericInfo<long long>::isSigned;
-
-template<>
-const char * NumericInfo<unsigned long long>::name;
-template<>
-unsigned long long NumericInfo<unsigned long long>::min;
-template<>
-unsigned long long NumericInfo<unsigned long long>::max;
-template<>
-bool NumericInfo<unsigned long long>::isSigned;
+template <>
+struct NumericInfo<char> {
+  static constexpr int size = sizeof(char);
+  static constexpr int bitCount = size * 8;
+  static constexpr char min =
+      (char)1 << (bitCount - 1);
+  static constexpr char max = -(min + 1);
+  static constexpr bool isSigned = true;
+  static constexpr const char * name = "char";
+};
+  
+template <>
+struct NumericInfo<unsigned char> {
+  static constexpr int size = sizeof(unsigned char);
+  static constexpr int bitCount = size * 8;
+  static constexpr unsigned char max = ~(unsigned char)0;
+  static constexpr unsigned char min = (unsigned char)0;
+  static constexpr bool isSigned = false;
+  static constexpr const char * name = "unsigned char";
+};
+  
+template <>
+struct NumericInfo<short> {
+  static constexpr int size = sizeof(short);
+  static constexpr int bitCount = size * 8;
+  static constexpr short min =
+      (short)1 << (bitCount - 1);
+  static constexpr short max = -(min + 1);
+  static constexpr bool isSigned = true;
+  static constexpr const char * name = "short";
+};
+  
+template <>
+struct NumericInfo<unsigned short> {
+  static constexpr int size = sizeof(unsigned short);
+  static constexpr int bitCount = size * 8;
+  static constexpr unsigned short max = ~(unsigned short)0;
+  static constexpr unsigned short min = (unsigned short)0;
+  static constexpr bool isSigned = false;
+  static constexpr const char * name = "unsigned short";
+};
+  
+template <>
+struct NumericInfo<int> {
+  static constexpr int size = sizeof(int);
+  static constexpr int bitCount = size * 8;
+  static constexpr int min =
+      (int)1 << (bitCount - 1);
+  static constexpr int max = -(min + 1);
+  static constexpr bool isSigned = true;
+  static constexpr const char * name = "int";
+};
+  
+template <>
+struct NumericInfo<unsigned int> {
+  static constexpr int size = sizeof(unsigned int);
+  static constexpr int bitCount = size * 8;
+  static constexpr unsigned int max = ~(unsigned int)0;
+  static constexpr unsigned int min = (unsigned int)0;
+  static constexpr bool isSigned = false;
+  static constexpr const char * name = "unsigned int";
+};
+  
+template <>
+struct NumericInfo<long> {
+  static constexpr int size = sizeof(long);
+  static constexpr int bitCount = size * 8;
+  static constexpr long min =
+      (long)1 << (bitCount - 1);
+  static constexpr long max = -(min + 1);
+  static constexpr bool isSigned = true;
+  static constexpr const char * name = "long";
+};
+  
+template <>
+struct NumericInfo<unsigned long> {
+  static constexpr int size = sizeof(unsigned long);
+  static constexpr int bitCount = size * 8;
+  static constexpr unsigned long max = ~(unsigned long)0;
+  static constexpr unsigned long min = (unsigned long)0;
+  static constexpr bool isSigned = false;
+  static constexpr const char * name = "unsigned long";
+};
+  
+template <>
+struct NumericInfo<long long> {
+  static constexpr int size = sizeof(long long);
+  static constexpr int bitCount = size * 8;
+  static constexpr long long min =
+      (long long)1 << (bitCount - 1);
+  static constexpr long long max = -(min + 1);
+  static constexpr bool isSigned = true;
+  static constexpr const char * name = "long long";
+};
+  
+template <>
+struct NumericInfo<unsigned long long> {
+  static constexpr int size = sizeof(unsigned long long);
+  static constexpr int bitCount = size * 8;
+  static constexpr unsigned long long max = ~(unsigned long long)0;
+  static constexpr unsigned long long min = (unsigned long long)0;
+  static constexpr bool isSigned = false;
+  static constexpr const char * name = "unsigned long long";
+};
 
 }
 
