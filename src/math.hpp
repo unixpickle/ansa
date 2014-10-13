@@ -85,6 +85,18 @@ bool IsPowerOf2(T value) {
   return ((T)1 << BitScanRight(value)) == value;
 }
 
+template <typename T>
+bool AddWraps(T value1, T value2) {
+  if (NumericInfo<T>::isSigned) {
+    if (value1 < 0) {
+      return (T)(value2 + value1) >= value2;
+    } else if (value2 < 0) {
+      return (T)(value1 + value2) >= value1;
+    }
+  }
+  return (T)(value1 + value2) < value1;
+}
+
 }
 
 #endif

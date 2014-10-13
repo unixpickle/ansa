@@ -19,6 +19,8 @@ struct NumericInfo<$name> {
   static constexpr $name max = -(min + 1);
   static constexpr bool isSigned = true;
   static constexpr const char * name = "$name";
+  typedef $name SignedType;
+  typedef unsigned $name UnsignedType;
 };
   """);
 }
@@ -32,6 +34,8 @@ struct NumericInfo<unsigned $name> {
   static constexpr unsigned $name min = (unsigned $name)0;
   static constexpr bool isSigned = false;
   static constexpr const char * name = "unsigned $name";
+  typedef $name SignedType;
+  typedef unsigned $name UnsignedType;
 };
   """);
 }

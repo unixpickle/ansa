@@ -94,3 +94,16 @@ Returns the greater of the two arguments. This function works for any comparable
     Max(-2, 0) == 0
     Max(-2, -2) == -2
     Max(-2, -3) == -2
+
+# AddWraps()
+
+This function helps you guard your code against integer wrap-around exploits. Supposed you have two integers `a` and `b` which you'd like to add together, but you don't want the sum to wrap around. In this case, you can check `AddWraps<int>(a, b)`. When the arguments are *signed*, `AddWraps` checks for both negative and positive wraparound.
+
+**Examples:**
+
+    AddWraps<unsigned char>(0xff, 0) == false
+    AddWraps<unsigned char>(0xff, 0x1) == true
+    AddWraps<unsigned char>(0xff, 0xff) == true
+    AddWraps<char>(-0x10, -0x10) == false
+    AddWraps<char>(-0x80, -1) == true
+    AddWraps<char>(-0x80, -0x80) == true
