@@ -32,6 +32,9 @@ void TestIsPowerOf2();
 template <typename T>
 void TestAddWraps();
 
+template <typename T>
+void TestMulWraps();
+
 int main() {
   RunAllTests<unsigned char>();
   RunAllTests<unsigned short>();
@@ -56,12 +59,14 @@ void RunAllTests() {
   TestMaxMin<T>();
   TestIsPowerOf2<T>();
   TestAddWraps<T>();
+  TestMulWraps<T>();
 }
 
 template <typename T>
 void RunSignedTests() {
   TestMaxMin<T>();
   TestAddWraps<T>();
+  TestMulWraps<T>();
 }
 
 template <typename T>
@@ -219,5 +224,70 @@ void TestAddWraps() {
     assert(AddWraps<T>(NumericInfo<T>::min + 1, -2));
     assert(AddWraps<T>(-2, NumericInfo<T>::min + 1));
     assert(AddWraps<T>(NumericInfo<T>::min, NumericInfo<T>::min));
+  }
+}
+
+template <typename T>
+void TestMulWraps() {
+  ScopedPass pass("MulWraps<", NumericInfo<T>::name, ">");
+  
+  assert(!MulWraps<T>(0, NumericInfo<T>::max));
+  assert(!MulWraps<T>(NumericInfo<T>::max, 0));
+  assert(!MulWraps<T>(1, NumericInfo<T>::max));
+  assert(!MulWraps<T>(NumericInfo<T>::max, 1));
+  assert(MulWraps<T>(2, NumericInfo<T>::max));
+  assert(MulWraps<T>(NumericInfo<T>::max, 2));
+  assert(MulWraps<T>(NumericInfo<T>::max, NumericInfo<T>::max));
+  assert(MulWraps<T>(NumericInfo<T>::max - 1, 2));
+  assert(MulWraps<T>(2, NumericInfo<T>::max - 1));
+  for (T i = 2; i < 10; ++i) {
+    assert(MulWraps<T>(i, NumericInfo<T>::max - i));
+    assert(MulWraps<T>(NumericInfo<T>::max - i, i));
+  }
+  // Sanity checks
+  assert(MulWraps<T>(11, NumericInfo<T>::max / 10));
+  assert(MulWraps<T>(NumericInfo<T>::max / 10, 11));
+  assert(!MulWraps<T>(10, NumericInfo<T>::max / 10));
+  assert(!MulWraps<T>(NumericInfo<T>::max / 10, 10));
+  
+  if (NumericInfo<T>::isSigned) {
+    // Some random sanity checks
+    assert(!MulWraps<T>(-0x10, -2));
+    assert(!MulWraps<T>(-2, -0x10));
+    assert(!MulWraps<T>(-5, -5));
+    
+    assert(!MulWraps<T>(0, NumericInfo<T>::min));
+    assert(!MulWraps<T>(NumericInfo<T>::min, 0));
+    assert(!MulWraps<T>(1, NumericInfo<T>::min));
+    assert(!MulWraps<T>(NumericInfo<T>::min, 1));
+    assert(MulWraps<T>(-1, NumericInfo<T>::min));
+    assert(MulWraps<T>(NumericInfo<T>::min, -1));
+    assert(MulWraps<T>(2, NumericInfo<T>::min));
+    assert(MulWraps<T>(NumericInfo<T>::min, 2));
+    assert(MulWraps<T>(NumericInfo<T>::min, NumericInfo<T>::min));
+    assert(MulWraps<T>(NumericInfo<T>::min + 1, 2));
+    assert(MulWraps<T>(2, NumericInfo<T>::min + 1));
+    for (T i = 2; i < 10; ++i) {
+      // Positive i
+      assert(MulWraps<T>(i, NumericInfo<T>::min + i));
+      assert(MulWraps<T>(NumericInfo<T>::min + i, i));
+      assert(MulWraps<T>(i, NumericInfo<T>::min));
+      assert(MulWraps<T>(NumericInfo<T>::min, i));
+      // Negative i
+      assert(MulWraps<T>(-i, NumericInfo<T>::min + i));
+      assert(MulWraps<T>(NumericInfo<T>::min + i, -i));
+      assert(MulWraps<T>(-i, NumericInfo<T>::min));
+      assert(MulWraps<T>(NumericInfo<T>::min, -i));
+    }
+    // Sanity checks
+    assert(MulWraps<T>(NumericInfo<T>::min / 10, 11));
+    assert(MulWraps<T>(11, NumericInfo<T>::min / 10));
+    assert(MulWraps<T>(NumericInfo<T>::min / 10, -11));
+    assert(MulWraps<T>(-11, NumericInfo<T>::min / 10));
+    
+    assert(!MulWraps<T>(NumericInfo<T>::min / 10, 10));
+    assert(!MulWraps<T>(10, NumericInfo<T>::min / 10));
+    assert(!MulWraps<T>(NumericInfo<T>::min / 10, -10));
+    assert(!MulWraps<T>(-10, NumericInfo<T>::min / 10));
   }
 }

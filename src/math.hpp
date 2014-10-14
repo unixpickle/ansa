@@ -97,6 +97,22 @@ bool AddWraps(T value1, T value2) {
   return (T)(value1 + value2) < value1;
 }
 
+template <typename T>
+bool MulWraps(T value1, T value2) {
+  if (!value1 || !value2) return false;
+  if (NumericInfo<T>::isSigned) {
+    // If it's -1 and the minimum value for type T, sometimes we could get a
+    // machine exception since negative numbers go one lower than positive
+    // numbers.
+    if (value2 == -1) {
+      return value1 == NumericInfo<T>::min;
+    } else if (value1 == -1) {
+      return value2 == NumericInfo<T>::min;
+    }
+  }
+  return ((T)(value1 * value2) / value2) != value1;
+}
+
 }
 
 #endif

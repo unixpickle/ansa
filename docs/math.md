@@ -24,9 +24,9 @@ The `IsAligned()` function checks if its first argument is divisible by its seco
 
 **Examples**:
 
-    IsAligned<unsigned int>(0x10, 0x8) == true
-    IsAligned<unsigned int>(0x8, 0x10) == false
-    IsAligned<unsigned int>(0x20, 3) == false
+    IsAligned(0x10, 0x8) == true
+    IsAligned(0x8, 0x10) == false
+    IsAligned(0x20, 3) == false
 
 # Align()
 
@@ -56,22 +56,22 @@ Computes the alignment of the given argument. The argument may not be zero.
 
 **Examples:**
 
-    Alignment<unsigned int>(0x100) == 0x100
-    Alignment<unsigned int>(0x110) == 0x10
-    Alignment<unsigned int>(17) == 0
-    Alignment<unsigned int>(18) == 2
-    Alignment<unsigned int>(0xff00) == 0x100
+    Alignment(0x100) == 0x100
+    Alignment(0x110) == 0x10
+    Alignment(17) == 0
+    Alignment(18) == 2
+    Alignment(0xff00) == 0x100
 
 # IsPowerOf2()
 
-What this function does should be pretty obvious. Passing zero results in a return value of `true`.
+This function's purpose should be pretty obvious. The only interesting thing is that passing zero results in a return value of `true`. The input argument must be positive (since, obviously, imaginary values cannot be returned).
 
 **Examples:**
 
-    IsPowerOf2<unsigned int>(0) == true
-    IsPowerOf2<unsigned int>(1) == true
-    IsPowerOf2<unsigned int>(3) == false
-    IsPowerOf2<unsigned int>(4) == true
+    IsPowerOf2(0) == true
+    IsPowerOf2(1) == true
+    IsPowerOf2(3) == false
+    IsPowerOf2(4) == true
 
 # Min()
 
@@ -101,9 +101,24 @@ This function helps you guard your code against integer wrap-around exploits. Su
 
 **Examples:**
 
-    AddWraps<unsigned char>(0xff, 0) == false
-    AddWraps<unsigned char>(0xff, 0x1) == true
-    AddWraps<unsigned char>(0xff, 0xff) == true
-    AddWraps<char>(-0x10, -0x10) == false
-    AddWraps<char>(-0x80, -1) == true
-    AddWraps<char>(-0x80, -0x80) == true
+    AddWraps<uint8_t>(0xff, 0) == false
+    AddWraps<uint8_t>(0xff, 0x1) == true
+    AddWraps<uint8_t>(0xff, 0xff) == true
+    AddWraps<int8_t>(-0x10, -0x10) == false
+    AddWraps<int8_t>(-0x80, -1) == true
+    AddWraps<int8_t>(-0x80, -0x80) == true
+
+# MulWraps()
+
+This function is used like `AddWraps()`. It checks if a multiplication operation would result in integer wrap-around.
+
+It should be noted that, for `MulWraps<int>()`, the expression `INT_MIN * -1` is considered to wrap-around, since `-INT_MIN` does not exist. This applies to the equivalent scenario for any signed type.
+
+**Examples:**
+
+    MulWraps<uint8_t>(-0x10, 2) == false
+    MulWraps<uint8_t>(-2, -2) == false
+    MulWraps<uint8_t>(-0x80, -1) == true
+    MulWraps<uint8_t>(0x10, 0x10) == true
+    MulWraps<uint8_t>(0x10, 0x8) == false
+    MulWraps<sint8_t>(0x10, 0x8) == true
