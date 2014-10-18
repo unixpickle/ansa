@@ -4,6 +4,8 @@
 #include <ansa/numeric-info>
 #include <cassert>
 
+#include <iostream> // TODO: delete this
+
 namespace ansa {
 
 template <typename T>
@@ -111,6 +113,33 @@ bool MulWraps(T value1, T value2) {
     }
   }
   return ((T)(value1 * value2) / value2) != value1;
+}
+
+template <typename T>
+T RoundUpDiv(T value1, T value2, bool roundDownNegative = true) {
+  assert(value2 != 0);
+  if (NumericInfo<T>::isSigned) {
+    // min/-1 results in an undefined number
+    assert(!(value1 == NumericInfo<T>::min && value2 == -1));
+    if (value1 < 0 && value2 < 0) {
+      if (value1 % value2) {
+        return (value1 / value2) + 1;
+      } else {
+        return value1 / value2;
+      }
+    } else if (value1 < 0 || value2 < 0) {
+      if (value1 % value2 && roundDownNegative) {
+        return (value1 / value2) - 1;
+      } else {
+        return value1 / value2;
+      }
+    }
+  }
+  if (value1 % value2) {
+    return (value1 / value2) + 1;
+  } else {
+    return value1 / value2;
+  }
 }
 
 }

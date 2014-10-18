@@ -122,3 +122,17 @@ It should be noted that, for `MulWraps<int>()`, the expression `INT_MIN * -1` is
     MulWraps<uint8_t>(0x10, 0x10) == true
     MulWraps<uint8_t>(0x10, 0x8) == false
     MulWraps<sint8_t>(0x10, 0x8) == true
+
+# RoundUpDiv()
+
+This function performs integer division, but it rounds the opposite way that C-style integer division does.  In general, C-style division truncates (e.g. "5/2=2", "-5/2=-2").
+
+One thing to note: by default, `RoundUpDiv()` will round *down* for negative division. If you pass `false` for the third, optional argument, it will round up.
+
+**Examples:**
+
+    RoundUpDiv<int>(4, 2) == 2
+    RoundUpDiv<int>(5, 2) == 3
+    RoundUpDiv<int>(5, -2) == -3
+    RoundUpDiv<int>(5, -2, false) == -2
+    RoundUpDiv<int>(-4, 2, false) == -2

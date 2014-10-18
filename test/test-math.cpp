@@ -35,6 +35,9 @@ void TestAddWraps();
 template <typename T>
 void TestMulWraps();
 
+template <typename T>
+void TestRoundUpDiv();
+
 int main() {
   RunAllTests<unsigned char>();
   RunAllTests<unsigned short>();
@@ -60,6 +63,7 @@ void RunAllTests() {
   TestIsPowerOf2<T>();
   TestAddWraps<T>();
   TestMulWraps<T>();
+  TestRoundUpDiv<T>();
 }
 
 template <typename T>
@@ -67,6 +71,7 @@ void RunSignedTests() {
   TestMaxMin<T>();
   TestAddWraps<T>();
   TestMulWraps<T>();
+  TestRoundUpDiv<T>();
 }
 
 template <typename T>
@@ -289,5 +294,68 @@ void TestMulWraps() {
     assert(!MulWraps<T>(10, NumericInfo<T>::min / 10));
     assert(!MulWraps<T>(NumericInfo<T>::min / 10, -10));
     assert(!MulWraps<T>(-10, NumericInfo<T>::min / 10));
+  }
+}
+
+template <typename T>
+void TestRoundUpDiv() {
+  ScopedPass pass("RoundUpDiv<", NumericInfo<T>::name, ">");
+  
+  assert(RoundUpDiv<T>(4, 2) == 2);
+  assert(RoundUpDiv<T>(5, 1) == 5);
+  assert(RoundUpDiv<T>(5, 2) == 3);
+  assert(RoundUpDiv<T>(5, 3) == 2);
+  assert(RoundUpDiv<T>(5, 5) == 1);
+  assert(RoundUpDiv<T>(5, 6) == 1);
+  assert(RoundUpDiv<T>(NumericInfo<T>::max, 2) == NumericInfo<T>::max / 2 + 1);
+  
+  if (NumericInfo<T>::isSigned) {
+    // Trivial negative case
+    assert(RoundUpDiv<T>(-4, -2) == 2);
+    assert(RoundUpDiv<T>(-4, 2) == -2);
+    assert(RoundUpDiv<T>(4, -2) == -2);
+    
+    // Negative / negative
+    assert(RoundUpDiv<T>(-5, -1) == 5);
+    assert(RoundUpDiv<T>(-5, -2) == 3);
+    assert(RoundUpDiv<T>(-5, -3) == 2);
+    assert(RoundUpDiv<T>(-5, -5) == 1);
+    assert(RoundUpDiv<T>(-5, -6) == 1);
+    
+    // Negative / positive and positive / negative
+    for (int i = 0; i < 2; ++i) {
+      int p1 = i ? 1 : -1;
+      int p2 = -p1;
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 1) == -5);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 2) == -3);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 3) == -2);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 5) == -1);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 6) == -1);
+    }
+    
+    // Same tests as above, but with roundDownNegative = false.
+    
+    assert(RoundUpDiv<T>(-4, -2, false) == 2);
+    assert(RoundUpDiv<T>(-4, 2, false) == -2);
+    assert(RoundUpDiv<T>(4, -2, false) == -2);
+    
+    assert(RoundUpDiv<T>(-5, -1, false) == 5);
+    assert(RoundUpDiv<T>(-5, -2, false) == 3);
+    assert(RoundUpDiv<T>(-5, -3, false) == 2);
+    assert(RoundUpDiv<T>(-5, -5, false) == 1);
+    assert(RoundUpDiv<T>(-5, -6, false) == 1);
+    
+    for (int i = 0; i < 2; ++i) {
+      int p1 = i ? 1 : -1;
+      int p2 = -p1;
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 1, false) == -5);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 2, false) == -2);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 3, false) == -1);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 5, false) == -1);
+      assert(RoundUpDiv<T>(p1 * 5, p2 * 6, false) == 0);
+    }
+    
+    // Basic min/2 case
+    assert(RoundUpDiv<T>(NumericInfo<T>::min, 2) == NumericInfo<T>::min / 2);
   }
 }
