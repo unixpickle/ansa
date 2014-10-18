@@ -2,9 +2,8 @@
 #define __ANSA_MATH_HPP__
 
 #include <ansa/numeric-info>
+#include <ansa/enable-if>
 #include <cassert>
-
-#include <iostream> // TODO: delete this
 
 namespace ansa {
 
@@ -88,53 +87,83 @@ bool IsPowerOf2(T value) {
 }
 
 template <typename T>
-bool AddWraps(T value1, T value2) {
-  if (NumericInfo<T>::isSigned) {
-    if (value1 < 0) {
-      return (T)(value2 + value1) >= value2;
-    } else if (value2 < 0) {
-      return (T)(value1 + value2) >= value1;
-    }
+typename EnableIf<NumericInfo<T>::isSigned, bool>::type AddWraps(T v1, T v2) {
+  if (v1 < 0) {
+    return (T)(v2 + v1) >= v2;
+  } else if (v2 < 0) {
+    return (T)(v1 + v2) >= v1;
   }
-  return (T)(value1 + value2) < value1;
+  return (T)(v1 + v2) < v1;
 }
 
 template <typename T>
-bool MulWraps(T value1, T value2) {
-  if (!value1 || !value2) return false;
-  if (NumericInfo<T>::isSigned) {
-    // If it's -1 and the minimum value for type T, sometimes we could get a
-    // machine exception since negative numbers go one lower than positive
-    // numbers.
-    if (value2 == -1) {
-      return value1 == NumericInfo<T>::min;
-    } else if (value1 == -1) {
-      return value2 == NumericInfo<T>::min;
-    }
-  }
-  return ((T)(value1 * value2) / value2) != value1;
+typename EnableIf<!NumericInfo<T>::isSigned, bool>::type AddWraps(T v1, T v2) {
+  return (T)(v1 + v2) < v1;
 }
 
 template <typename T>
-T RoundUpDiv(T value1, T value2, bool roundDownNegative = true) {
+typename EnableIf<NumericInfo<T>::isSigned, bool>::type MulWraps(T v1, T v2) {
+  if (!v1 || !v2) return false;
+  // If it's -1 and the minimum value for type T, sometimes we could get a
+  // machine exception since negative numbers go one lower than positive
+  // numbers.
+  if (v2 == -1) {
+    return v1 == NumericInfo<T>::min;
+  } else if (v1 == -1) {
+    return v2 == NumericInfo<T>::min;
+  }
+  return ((T)(v1 * v2) / v2) != v1;
+}
+
+template <typename T>
+typename EnableIf<!NumericInfo<T>::isSigned, bool>::type MulWraps(T v1, T v2) {
+  if (!v1 || !v2) return false;
+  return ((T)(v1 * v2) / v2) != v1;
+}
+
+template <typename T>
+typename EnableIf<NumericInfo<T>::isSigned, T>::type
+RoundUpDiv(T value1, T value2, bool roundDownNegative = true) {
   assert(value2 != 0);
-  if (NumericInfo<T>::isSigned) {
-    // min/-1 results in an undefined number
-    assert(!(value1 == NumericInfo<T>::min && value2 == -1));
-    if (value1 < 0 && value2 < 0) {
-      if (value1 % value2) {
-        return (value1 / value2) + 1;
-      } else {
-        return value1 / value2;
-      }
-    } else if (value1 < 0 || value2 < 0) {
-      if (value1 % value2 && roundDownNegative) {
-        return (value1 / value2) - 1;
-      } else {
-        return value1 / value2;
-      }
+  
+  // Min/-1 results in an undefined number.
+  assert(!(value1 == NumericInfo<T>::min && value2 == -1));
+  
+  if (value1 < 0 && value2 < 0) {
+    if (value1 % value2) {
+      return (value1 / value2) + 1;
+    } else {
+      return value1 / value2;
     }
+  } else if (value1 < 0 || value2 < 0) {
+    if (value1 % value2 && roundDownNegative) {
+      return (value1 / value2) - 1;
+    } else {
+      return value1 / value2;
+    }
+  } else if (value1 % value2) {
+    return (value1 / value2) + 1;
+  } else {
+    return value1 / value2;
   }
+}
+
+template <typename T>
+typename EnableIf<!NumericInfo<T>::isSigned, T>::type
+RoundUpDiv(T value1, T value2) {
+  assert(value2 != 0);
+  if (value1 % value2) {
+    return (value1 / value2) + 1;
+  } else {
+    return value1 / value2;
+  }
+}
+
+template <typename T>
+typename EnableIf<!NumericInfo<T>::isSigned, T>::type
+RoundUpDiv(T value1, T value2, bool) {
+  // Ignore the roundDownNegative argument
+  assert(value2 != 0);
   if (value1 % value2) {
     return (value1 / value2) + 1;
   } else {
