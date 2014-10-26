@@ -1,7 +1,7 @@
 import 'package:anbuild/anbuild.dart';
 
-void main(_, port) {
-  runFailureGuard(port, () {
+void main(args, port) {
+  runBuildMain(args, port, () {
     var result = new TargetResult();
     result.addIncludes('c++', ['include']);
     result.addScanSources(['src']);
