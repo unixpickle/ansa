@@ -7,14 +7,10 @@ namespace ansa {
 
 template <typename T>
 struct NumericInfo {
-  static constexpr bool isNumber = false;
-  static constexpr size_t size = sizeof(T);
-  static constexpr size_t bitCount = size * 8;
 };
 
 template <>
 struct NumericInfo<char> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(char);
   static constexpr size_t bitCount = size * 8;
   static constexpr char min =

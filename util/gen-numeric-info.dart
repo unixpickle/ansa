@@ -12,7 +12,6 @@ void main() {
 void printSignedType(String name) {
   print("""
 struct NumericInfo<$name> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof($name);
   static constexpr size_t bitCount = size * 8;
   static constexpr $name min =
@@ -29,7 +28,6 @@ struct NumericInfo<$name> {
 void printUnsignedType(String name) {
   print("""
 struct NumericInfo<unsigned $name> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned $name);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned $name max = ~(unsigned $name)0;
