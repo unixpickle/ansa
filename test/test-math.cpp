@@ -123,17 +123,16 @@ void TestAlignment() {
   
   int bitCount = NumericInfo<T>::bitCount;
   
-  // The Align() function depends on IsAligned(), so we test IsAligned() first.
+  // Test IsAligned()
   assert(IsAligned<T>((T)3, (T)1));
   assert(IsAligned<T>((T)6, (T)3));
   assert(IsAligned<T>((T)6, (T)2));
-  assert(IsAligned<T>((T)6, (T)0));
   assert(IsAligned<T>((T)1 << (bitCount - 1), (T)1 << (bitCount - 2)));
   assert(!IsAligned<T>((T)6, (T)5));
   assert(!IsAligned<T>((T)0x10, (T)0x20));
   assert(!IsAligned<T>((T)1 << (bitCount - 2), (T)1 << (bitCount - 1)));
   
-  // Make sure that Align() works properly
+  // Test Align()
   assert(Align<T>((T)3, (T)10) == (T)10);
   assert(Align<T>((T)15, (T)0x10) == (T)0x10);
   assert(Align<T>((T)0x1f, (T)0x10) == (T)0x20);
@@ -148,6 +147,19 @@ void TestAlignment() {
   for (int i = 0; i < bitCount; ++i) {
     assert(Alignment<T>((T)1 << i) == (T)1 << i);
   }
+  
+  // Test IsAligned2()
+  assert(IsAligned2<T>((T)0x10, (T)2));
+  assert(!IsAligned2<T>((T)0x10, (T)0x20));
+  assert(IsAligned2<T>((T)0x28, (T)4));
+  assert(IsAligned2<T>((T)0x28, (T)8));
+  assert(!IsAligned2<T>((T)0x28, (T)0x10));
+  
+  // Test Align2()
+  assert(Align2<T>((T)0x14, 0x10) == 0x20);
+  assert(Align2<T>((T)0x2c, 0x4) == 0x2c);
+  assert(Align2<T>((T)0x2c, 0x8) == 0x30);
+  assert(Align2<T>((T)0, 0x10) == 0);
 }
 
 template <typename T>

@@ -22,21 +22,48 @@ This is like `Log2Floor()`, but it rounds up instead of down.
 
 The `IsAligned()` function checks if its first argument is divisible by its second argument. If and only if the first argument is *not* divisible by the second argument, the function returns `false`.
 
+Neither argument needs to be a power of two. The second argument may not be zero.
+
 **Examples**:
 
-    IsAligned(0x10, 0x8) == true
-    IsAligned(0x8, 0x10) == false
-    IsAligned(0x20, 3) == false
+    IsAligned<unsigned int>(0x10, 0x8) == true
+    IsAligned<unsigned int>(0x8, 0x10) == false
+    IsAligned<unsigned int>(0x20, 3) == false
+
+# IsAligned2()
+
+Like `IsAligned()`, except that the second argument must be a power of two. This allows for faster bitwise operations on some processors.
+
+**Examples**:
+
+    IsAligned2<unsigned int>(0x10, 0x8) == true
+    IsAligned2<unsigned int>(0x8, 0x10) == false
+    IsAligned2<unsigned int>(0x100, 0x80) == true
+    IsAligned2<unsigned int>(0x128, 0x8) == true
+    IsAligned2<unsigned int>(0x128, 0x4) == true
+    IsAligned2<unsigned int>(0x128, 0x10) == false
 
 # Align()
 
 The `Align()` function aligns a value by another value. The first argument is the value to align, and the second is the alignment. The result will be greater than the first argument and will be divisible by the second.
+
+Neither argument needs to be a power of two. The second argument may not be zero.
 
 **Examples:**
 
     Align<unsigned int>(14, 5) == 15
     Align<unsigned int>(15, 6) == 18
     Align<unsigned int>(8, 2) == 8
+
+# Align2()
+
+Like `Align()`, except the second argument must be a power of two.
+
+**Examples:**
+
+    Align2<unsigned int>(14, 4) == 16
+    Align2<unsigned int>(0x21, 0x10) == 0x30
+    Align2<unsigned int>(0x10, 4) == 0x10
 
 # BitScanRight()
 
@@ -52,7 +79,7 @@ Takes a numerical argument and performs a bitscan from the least significant dig
 
 # Alignment()
 
-Computes the alignment of the given argument. The argument may not be zero.
+Computes the alignment of the given argument. The argument may not be zero. The resulting alignment is always a power of two.
 
 **Examples:**
 

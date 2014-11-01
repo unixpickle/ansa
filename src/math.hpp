@@ -36,16 +36,37 @@ int Log2Ceil(T value) {
 template <typename T>
 inline bool IsAligned(T value, T alignment) {
   static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
-  return alignment < 2 ? true : (value % alignment) == 0;
+  assert(alignment != 0);
+  return (value % alignment) == 0;
+}
+
+template <typename T>
+inline bool IsAligned2(T value, T alignment) {
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
+  assert(alignment != 0);
+  return (value & (alignment - 1)) == 0;
 }
 
 template <typename T>
 T Align(T value, T alignment) {
   static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
-  if (IsAligned(value, alignment)) {
+  assert(alignment != 0);
+  T misalignment = value % alignment;
+  if (!misalignment) {
     return value;
   } else {
-    return value + (alignment - (value % alignment));
+    return value + (alignment - misalignment);
+  }
+}
+
+template <typename T>
+T Align2(T value, T alignment) {
+  static_assert(!NumericInfo<T>::isSigned, "Unsupported input type");
+  T misalignment = value & (alignment - 1);
+  if (!misalignment) {
+    return value;
+  } else {
+    return value + (alignment - misalignment);
   }
 }
 
