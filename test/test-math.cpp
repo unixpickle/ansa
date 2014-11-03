@@ -36,6 +36,9 @@ template <typename T>
 void TestMulWraps();
 
 template <typename T>
+void TestSubWraps();
+
+template <typename T>
 void TestRoundUpDiv();
 
 int main() {
@@ -63,6 +66,7 @@ void RunAllTests() {
   TestIsPowerOf2<T>();
   TestAddWraps<T>();
   TestMulWraps<T>();
+  TestSubWraps<T>();
   TestRoundUpDiv<T>();
 }
 
@@ -71,6 +75,7 @@ void RunSignedTests() {
   TestMaxMin<T>();
   TestAddWraps<T>();
   TestMulWraps<T>();
+  TestSubWraps<T>();
   TestRoundUpDiv<T>();
 }
 
@@ -306,6 +311,47 @@ void TestMulWraps() {
     assert(!MulWraps<T>(10, NumericInfo<T>::min / 10));
     assert(!MulWraps<T>(NumericInfo<T>::min / 10, -10));
     assert(!MulWraps<T>(-10, NumericInfo<T>::min / 10));
+  }
+}
+
+template <typename T>
+void TestSubWraps() {
+  ScopedPass pass("SubWraps<", NumericInfo<T>::name, ">");
+  
+  assert(!SubWraps<T>(10, 2));
+  assert(!SubWraps<T>(10, 0));
+  assert(!SubWraps<T>(10, 10));
+  assert(!SubWraps<T>(NumericInfo<T>::max, NumericInfo<T>::max));
+  assert(!SubWraps<T>(NumericInfo<T>::min, NumericInfo<T>::min));
+  
+  if (NumericInfo<T>::isSigned) {
+    // Subtracting zero
+    assert(!SubWraps<T>(1, 0));
+    assert(!SubWraps<T>(NumericInfo<T>::min, 0));
+    assert(!SubWraps<T>(NumericInfo<T>::max, 0));
+    // Subtracting the maximum value
+    assert(!SubWraps<T>(0, NumericInfo<T>::max));
+    assert(!SubWraps<T>(-1, NumericInfo<T>::max));
+    assert(SubWraps<T>(-2, NumericInfo<T>::max));
+    assert(SubWraps<T>(-3, NumericInfo<T>::max));
+    // Subtracting the minimum value
+    assert(SubWraps<T>(0, NumericInfo<T>::min));
+    assert(SubWraps<T>(1, NumericInfo<T>::min));
+    assert(!SubWraps<T>(-1, NumericInfo<T>::min));
+    assert(SubWraps<T>(NumericInfo<T>::max, NumericInfo<T>::min));
+    // Subtracting from the maximum value
+    assert(SubWraps<T>(NumericInfo<T>::max, -1));
+    assert(!SubWraps<T>(NumericInfo<T>::max, 1));
+    assert(!SubWraps<T>(NumericInfo<T>::max, NumericInfo<T>::max));
+    // Subtracting from the minimum value
+    assert(!SubWraps<T>(NumericInfo<T>::min, -2));
+    assert(!SubWraps<T>(NumericInfo<T>::min, -1));
+    assert(SubWraps<T>(NumericInfo<T>::min, 1));
+    assert(SubWraps<T>(NumericInfo<T>::min, 2));
+  } else {
+    assert(SubWraps<T>(10, 11));
+    assert(SubWraps<T>(NumericInfo<T>::max - 1, NumericInfo<T>::max));
+    assert(!SubWraps<T>(NumericInfo<T>::max, NumericInfo<T>::max - 1));
   }
 }
 

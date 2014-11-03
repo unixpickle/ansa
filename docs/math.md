@@ -150,6 +150,23 @@ It should be noted that, for `MulWraps<int>()`, the expression `INT_MIN * -1` is
     MulWraps<uint8_t>(0x10, 0x8) == false
     MulWraps<sint8_t>(0x10, 0x8) == true
 
+# SubWraps()
+
+Checks if a subtraction operation would cause integer wrap-around. For unsigned integers, `SubWraps(a, b)` is equivalent to `b > a`. For signed integers, `SubWraps(a, b)` will almost always be equivalent to `AddWraps(a, -b)`, except in the case where `b` is the type's minimum possible value.
+
+**Examples**:
+
+    SubWraps<int8_t>(0, 1) == false
+    SubWraps<int8_t>(-0x70, 0x30) == true
+    SubWraps<int8_t>(0x7f, -1) == true
+    SubWraps<int8_t>(0, -0x80) == true
+    SubWraps<int8_t>(-1, -0x80) == false
+    
+    SubWraps<uint8_t>(0, 1) == true
+    SubWraps<uint8_t>(1, 0) == false
+    SubWraps<uint8_t>(0xff, 0xff) == false
+    SubWraps<uint8_t>(0xfe, 0xff) == true
+
 # RoundUpDiv()
 
 This function performs integer division, but it rounds the opposite way that C-style integer division does.  In general, C-style division truncates (e.g. "5/2=2", "-5/2=-2").

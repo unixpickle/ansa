@@ -143,6 +143,25 @@ typename EnableIf<!NumericInfo<T>::isSigned, bool>::type MulWraps(T v1, T v2) {
 }
 
 template <typename T>
+inline typename EnableIf<NumericInfo<T>::isSigned, bool>::type
+SubWraps(T v1, T v2) {
+  static_assert(NumericInfo<T>::min == -NumericInfo<T>::max - 1,
+                "Unexpected behavior from integer type.");
+  if (v2 == NumericInfo<T>::min) {
+    // We cannot use a basic AddWraps() because -v2 is invalid.
+    return AddWraps<T>(v1, 1) || AddWraps<T>(v1 + 1, NumericInfo<T>::max);
+  } else {
+    return AddWraps<T>(v1, -v2);
+  }
+}
+
+template <typename T>
+inline typename EnableIf<!NumericInfo<T>::isSigned, bool>::type
+SubWraps(T v1, T v2) {
+  return v2 > v1;
+}
+
+template <typename T>
 typename EnableIf<NumericInfo<T>::isSigned, T>::type
 RoundUpDiv(T value1, T value2, bool roundDownNegative = true) {
   assert(value2 != 0);
