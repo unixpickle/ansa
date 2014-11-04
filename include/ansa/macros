@@ -1,8 +1,16 @@
 #ifndef __ANSA_MACROS_HPP__
 #define __ANSA_MACROS_HPP__
 
+#include <cassert>
+
 #define ANSA_ALIGNED(x) __attribute__((aligned(x)))
 #define ANSA_PACKED __attribute__((packed))
 #define ANSA_NORETURN __attribute__((noreturn))
+
+#ifdef NDEBUG
+#define ANSA_EVAL_ASSERT(x) (void)x
+#else
+#define ANSA_EVAL_ASSERT assert
+#endif
 
 #endif
