@@ -10,21 +10,20 @@ struct NumericInfo {
 };
 
 template <>
-struct NumericInfo<char> {
-  static constexpr size_t size = sizeof(char);
+struct NumericInfo<signed char> {
+  static constexpr size_t size = sizeof(signed char);
   static constexpr size_t bitCount = size * 8;
-  static constexpr char min =
-      (char)1 << (bitCount - 1);
-  static constexpr char max = -(min + 1);
+  static constexpr signed char min =
+      (signed char)1 << (bitCount - 1);
+  static constexpr signed char max = -(min + 1);
   static constexpr bool isSigned = true;
-  static constexpr const char * name = "char";
-  typedef char SignedType;
+  static constexpr const char * name = "signed char";
+  typedef signed char SignedType;
   typedef unsigned char UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<unsigned char> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned char);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned char max = ~(unsigned char)0;
@@ -34,10 +33,23 @@ struct NumericInfo<unsigned char> {
   typedef char SignedType;
   typedef unsigned char UnsignedType;
 };
-  
+
+template <>
+struct NumericInfo<char> {
+  static constexpr bool isSigned = (char)-1 < (char)0;
+  static constexpr size_t size = sizeof(char);
+  static constexpr size_t bitCount = size * 8;
+  static constexpr char max = isSigned ? NumericInfo<signed char>::max :
+                              NumericInfo<unsigned char>::max;
+  static constexpr char min = isSigned ? NumericInfo<signed char>::min :
+                              NumericInfo<unsigned char>::min;
+  static constexpr const char * name = "char";
+  typedef signed char SignedType;
+  typedef unsigned char UnsignedType;
+};
+
 template <>
 struct NumericInfo<short> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(short);
   static constexpr size_t bitCount = size * 8;
   static constexpr short min =
@@ -46,12 +58,11 @@ struct NumericInfo<short> {
   static constexpr bool isSigned = true;
   static constexpr const char * name = "short";
   typedef short SignedType;
-  typedef unsigned short UnsignedType;
+  typedef short UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<unsigned short> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned short);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned short max = ~(unsigned short)0;
@@ -61,10 +72,9 @@ struct NumericInfo<unsigned short> {
   typedef short SignedType;
   typedef unsigned short UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<int> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(int);
   static constexpr size_t bitCount = size * 8;
   static constexpr int min =
@@ -73,12 +83,11 @@ struct NumericInfo<int> {
   static constexpr bool isSigned = true;
   static constexpr const char * name = "int";
   typedef int SignedType;
-  typedef unsigned int UnsignedType;
+  typedef int UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<unsigned int> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned int);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned int max = ~(unsigned int)0;
@@ -88,10 +97,9 @@ struct NumericInfo<unsigned int> {
   typedef int SignedType;
   typedef unsigned int UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<long> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(long);
   static constexpr size_t bitCount = size * 8;
   static constexpr long min =
@@ -100,12 +108,11 @@ struct NumericInfo<long> {
   static constexpr bool isSigned = true;
   static constexpr const char * name = "long";
   typedef long SignedType;
-  typedef unsigned long UnsignedType;
+  typedef long UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<unsigned long> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned long);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned long max = ~(unsigned long)0;
@@ -115,10 +122,9 @@ struct NumericInfo<unsigned long> {
   typedef long SignedType;
   typedef unsigned long UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<long long> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(long long);
   static constexpr size_t bitCount = size * 8;
   static constexpr long long min =
@@ -127,12 +133,11 @@ struct NumericInfo<long long> {
   static constexpr bool isSigned = true;
   static constexpr const char * name = "long long";
   typedef long long SignedType;
-  typedef unsigned long long UnsignedType;
+  typedef long long UnsignedType;
 };
-  
+
 template <>
 struct NumericInfo<unsigned long long> {
-  static constexpr bool isNumber = true;
   static constexpr size_t size = sizeof(unsigned long long);
   static constexpr size_t bitCount = size * 8;
   static constexpr unsigned long long max = ~(unsigned long long)0;

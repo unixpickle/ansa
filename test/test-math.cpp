@@ -48,7 +48,7 @@ int main() {
   RunAllTests<unsigned long>();
   RunAllTests<unsigned long long>();
   
-  RunSignedTests<char>();
+  RunSignedTests<signed char>();
   RunSignedTests<short>();
   RunSignedTests<int>();
   RunSignedTests<long>();
